@@ -1,0 +1,18 @@
+{
+  "name": "aceable-user-api",
+  "version": "1.0.0",
+  "description": "Aceable API Project",
+  "main": "./app/index.js",
+  "author": "John Burge <john@burge.io>",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "~3.0.2",
+    "express": "~4.16.4",
+    "mongodb": "~3.0.2",
+    "mongodb-memory-server": "~2.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app/app.js"
+  }
+}
