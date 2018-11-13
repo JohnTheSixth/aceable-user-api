@@ -2,5 +2,7 @@
 // from one place.
 
 module.exports = {
-  userHandlers: require('./users')
+  userHandlers: require('./users'),
+  dataHandlers: require('./data'),
+  errorHandler: require('./errors')
 }

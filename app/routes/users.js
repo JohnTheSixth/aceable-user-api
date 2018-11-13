@@ -1,20 +1,22 @@
 const userRoutes = require('express').Router();
-
-const { userHandlers: handlers } = require('../handlers');
-
-userRoutes.get('/', (req, res) => {
-  console.log('GET users path');
-  res.status(200).json({ message: 'user route established' });
-});
+const { userHandlers: handlers, errorHandler } = require('../handlers');
 
 userRoutes.post('/', (req, res) => {
-  handlers.post(req.body);
-  res.status(200).json({ message: 'request received' });
+  handlers.post(req.body)
+    .then(data => res.status(200).json(data))
+    .catch(data => {
+      const { status, message } = errorHandler(data);
+      res.status(status).json({ message: message })
+    });
 });
 
 userRoutes.delete('/:id', (req, res) => {
-  handlers.del(req.params);
-  res.status(200).json({ message: 'deletion request received' })
+  handlers.del(req.params)
+    .then(data => res.status(200).json(data))
+    .catch(data => {
+      const { status, message } = errorHandler(data);
+      res.status(status).json({ message: message })
+    });
 });
 
 module.exports = userRoutes;

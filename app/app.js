@@ -2,8 +2,14 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+// Import DB connection and configuration function
+const { db, dbConfig } = require('../db');
+
 // Import middlewares
 const routes = require('./routes');
+
+// Configure DB and raise error if config fails
+dbConfig(db).catch(err => { throw err });
 
 // Configure middlewares
 app.use(express.json());
