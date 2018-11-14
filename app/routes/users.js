@@ -11,7 +11,8 @@ userRoutes.post('/', (req, res) => {
 });
 
 userRoutes.delete('/:id', (req, res) => {
-  handlers.del(req.params)
+  console.log('PARAMS:', req.params);
+  handlers.del(req.params.id)
     .then(data => res.status(200).json(data))
     .catch(data => {
       const { status, message } = errorHandler(data);

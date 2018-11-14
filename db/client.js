@@ -3,6 +3,9 @@
   allows us to extend the client logic in the future (or change the client completely).
 */
 
-const mongoAdapter = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
-module.exports = mongoAdapter.MongoClient;
+module.exports = {
+  MongoClient,
+  ObjectId,
+}

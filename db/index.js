@@ -1,6 +1,6 @@
 const MongoMemoryServer = require('./server');
-const MongoClient = require('./client');
-const dbConfig = require('./config');
+const { MongoClient, ObjectId } = require('./client');
+const { dbConfig, dbName } = require('./config');
 
 const db = MongoMemoryServer.getInstanceData()
   .then(({ uri }) => MongoClient.connect(uri))
@@ -8,6 +8,8 @@ const db = MongoMemoryServer.getInstanceData()
 
 // Export the DB promise and configuration function
 module.exports = {
-  db: db,
-  dbConfig: dbConfig
+  db,
+  dbConfig,
+  dbName,
+  ObjectId,
 }
