@@ -7,11 +7,11 @@
   Running `npm run db-start` from the command line will call this script.
 */
 
-const dbServer = require('./server');
+const server = require('../db/server');
 
 console.log('Starting DB server, please wait...')
 
-dbServer.getInstanceData()
+server.getInstanceData()
   .then(({ dbName, uri }) => {
     console.log(`DB Instance ${dbName} is running at ${uri}`);
     console.log('Press Ctrl + C to exit.');

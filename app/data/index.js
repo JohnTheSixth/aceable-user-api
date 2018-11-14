@@ -10,5 +10,5 @@ module.exports = {
     find,
     deactivate,
   },
-  response,
+  response, // This is also an object like module.exports.request; all the logic is in response.js
 }

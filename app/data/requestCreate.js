@@ -25,7 +25,6 @@ const sanitizeUserData = (data) => {
   return bcrypt.hash(password, saltRounds)
     .then(hash => {
       sanitizedData['password'] = hash;
-      console.log('SANITIZED DATA:', sanitizedData)
       return sanitizedData;
     })
     .catch(err => Promise.reject({
@@ -35,7 +34,6 @@ const sanitizeUserData = (data) => {
 }
 
 const spliceKeys = (ary, rejectKeys) => {
-  console.log('SPLICE KEYS CALLED')
   /*
     This bit of logic here finds the index of 'active' and 'password' in the permittedUserKeys
     array and removes them, if they exist. We do this for three reasons:

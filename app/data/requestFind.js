@@ -9,14 +9,17 @@ const findByEmailPass = ({ email, password }) => {
     });
   }
 
-  const query = { email: { $eq: email } };
+  const query = {
+    email: { $eq: email },
+    active: { $eq: true },
+  };
 
   return find({ collection: 'users', query })
     .then(document => {
       if (!document) {
         return Promise.reject({
           status: 404,
-          message: 'Email does not match any existing records.',
+          message: 'Email does not match any currently active user.',
         });
       }
 

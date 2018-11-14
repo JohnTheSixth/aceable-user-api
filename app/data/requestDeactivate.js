@@ -1,13 +1,12 @@
+const { ObjectId } = require('mongodb');
+
 const { find, update } = require('../../db/operations');
-const { ObjectId } = require('../../db');
 
 const deactivate = (docId) => {
   const query = { _id: { $eq: ObjectId(docId) } };
-  console.log('QUERY:', query)
 
   return find({ collection: 'users', query })
     .then(document => {
-      console.log('DOCUMENT:', document)
       if (!document) {
         return Promise.reject({
           status: 404,
@@ -36,7 +35,7 @@ const deactivate = (docId) => {
           }
         });
     })
-    .catch(err => Promise.reject(err));  // bubble up through Promise chain to client
+    .catch(err => Promise.reject(err)); // bubble up through Promise chain to client
 }
 
 module.exports = deactivate;
