@@ -1,19 +1,23 @@
-const dataHandlers = require('./data');
+const { request, response } = require('../data');
 
-const post = (data) => {
-  if (data.email_pass) {
-    return dataHandlers.find(data.email_pass);
+const post = (body) => {
+  if (body.user_query) {
+    return request.find(body.user_query)
+      .then(data => response.removePassword(data))
+      .catch(err => Promise.reject(err)); // bubble up through the promise chain to the client
   } else {
-    return dataHandlers.create(data);
+    return request.create(body)
+      .then(data => response.filterCreatedData(data))
+      .catch(err => Promise.reject(err)); // bubble up through the promise chain to the client
   }
 }
 
-const deactivate = (data) => {
+const deactivate = (id) => {
   console.log('DEACTIVATE USER');
-  return dataHandlers.deactivateUser(data);
+  return request.deactivate(id);
 }
 
 module.exports = {
-  post: post,
-  del: deactivate
+  post,
+  del: deactivate,
 }

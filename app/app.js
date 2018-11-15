@@ -9,7 +9,12 @@ const { db, dbConfig } = require('../db');
 const routes = require('./routes');
 
 // Configure DB and raise error if config fails
-dbConfig(db).catch(err => { throw err });
+dbConfig(db)
+  .then(() => console.log('Database is running.'))
+  .catch(err => {
+    console.log('ERROR STARTING DB:', err);
+    throw err;
+  });
 
 // Configure middlewares
 app.use(express.json());

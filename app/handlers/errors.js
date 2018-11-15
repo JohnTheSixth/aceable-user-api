@@ -1,6 +1,14 @@
 const handleMongoError = ({ message: msg }) => ({ status: 422, message: msg });
 
-const handleAppError = (data) => ({ status: 400, message: data.message });
+const handleAppError = (data) => {
+  // If status is provided in error, use that; otherwise, use 400
+  const status = (data.status || 400);
+
+  return {
+    status,
+    message: data.message
+  }
+}
 
 const errorHandler = (data) => {
   let errorData;
