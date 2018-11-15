@@ -8,7 +8,7 @@ const handleAppError = (data) => {
     status,
     message: data.message
   }
-}
+};
 
 const errorHandler = (data) => {
   let errorData;
@@ -20,6 +20,6 @@ const errorHandler = (data) => {
   }
 
   return errorData;
-}
+};
 
 module.exports = errorHandler;

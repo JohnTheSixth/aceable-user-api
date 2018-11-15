@@ -9,7 +9,7 @@
 
 const server = require('../db/server');
 
-console.log('Starting DB server, please wait...')
+console.log('Starting DB server, please wait...');
 
 server.getInstanceData()
   .then(({ dbName, uri }) => {

@@ -24,6 +24,7 @@ const sanitizeUserData = (data) => {
     }
   });
 
+  // we need to hash the password before storing it
   return bcrypt.hash(password, saltRounds)
     .then(hash => {
       sanitizedData['password'] = hash;
@@ -55,7 +56,7 @@ const create = (data) => {
       collection: 'users',
       document: userData,
     }))
-    .catch(err => Promise.reject(err)); // bubble up through Promise chain to client
+    .catch(err => Promise.reject(err)); // bubble up through promise chain to client
 }
 
 module.exports = create;

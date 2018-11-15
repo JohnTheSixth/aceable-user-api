@@ -5,6 +5,7 @@ const { saltRounds } = require('./bcryptConfig');
 const { findOne } = require('../../db/operations');
 
 // query searches for documents with specified ObjectId that have an active status
+// return promises here because we need to pass errors up the promise chain to the client
 const userIdQuery = (docId) => {
   try {
     return Promise.resolve({
@@ -65,7 +66,7 @@ const findUserById = (docId) => {
       }
     })
     .catch(err => Promise.reject(err));
-}
+};
 
 module.exports = {
   findUserByEmailPass,

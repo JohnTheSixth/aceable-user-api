@@ -4,7 +4,7 @@ const { findOne, update } = require('../../db/operations');
 const { userIdQuery } = require('./requestFind');
 
 const deactivate = (docId) => {
-  let userQuery;
+  let userQuery; // this will be assigned a value after the userIdQuery promise resolves
 
   return userIdQuery(docId)
     .then(query => {
@@ -32,7 +32,7 @@ const deactivate = (docId) => {
           }
         });
     })
-    .catch(err => Promise.reject(err)); // bubble up through Promise chain to client
+    .catch(err => Promise.reject(err)); // bubble up through promise chain to client
 };
 
 module.exports = deactivate;
