@@ -11,9 +11,14 @@
     "mongodb": "~3.0.2",
     "mongodb-memory-server": "~2.7.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "mocha": "^5.2.0"
+  },
   "scripts": {
     "db-start": "node scripts/db-start.js",
-    "start": "node app/app.js"
+    "start": "node app/index.js",
+    "test": "./node_modules/mocha/bin/mocha --exit __tests__/app.spec.js"
   }
 }

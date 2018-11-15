@@ -1,4 +1,6 @@
-const { bcrypt, saltRounds } = require('./bcryptConfig');
+const bcrypt = require('bcrypt');
+
+const { saltRounds } = require('./bcryptConfig');
 const { insert } = require('../../db/operations'); // for inserting sanitized data
 const userSchema = require('../../db/schemas/users.json');
 

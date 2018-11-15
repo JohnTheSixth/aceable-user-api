@@ -1,5 +1,5 @@
 const create = require('./requestCreate');
-const find = require('./requestFind');
+const { findUserByEmailPass, findUserById } = require('./requestFind');
 const deactivate = require('./requestDeactivate');
 
 const response = require('./response');
@@ -7,8 +7,9 @@ const response = require('./response');
 module.exports = {
   request: {
     create,
-    find,
+    findUserByEmailPass,
+    findUserById,
     deactivate,
   },
   response, // This is also an object like module.exports.request; all the logic is in response.js
-}
+};

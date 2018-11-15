@@ -1,7 +1,16 @@
-const { bcrypt, saltRounds } = require('./bcryptConfig');
-const { find } = require('../../db/operations');
+const { ObjectId } = require('mongodb');
+const bcrypt = require('bcrypt');
 
-const findByEmailPass = ({ email, password }) => {
+const { saltRounds } = require('./bcryptConfig');
+const { findOne } = require('../../db/operations');
+
+// query searches for documents with specified ObjectId that have an active status
+const userIdQuery = (docId) => ({
+  _id: { $eq: ObjectId(docId) },
+  active: { $eq: true },
+});
+
+const findUserByEmailPass = ({ email, password }) => {
   if (!email || !password) {
     return Promise.reject({
       status: 422,
@@ -14,7 +23,7 @@ const findByEmailPass = ({ email, password }) => {
     active: { $eq: true },
   };
 
-  return find({ collection: 'users', query })
+  return findOne({ collection: 'users', query })
     .then(document => {
       if (!document) {
         return Promise.reject({
@@ -26,7 +35,7 @@ const findByEmailPass = ({ email, password }) => {
       return bcrypt.compare(password, document.password)
         .then(result => {
           if (result) {
-            return Promise.resolve(document);
+            return document;
           } else {
             return Promise.reject({ status: 401, message: 'Password does not match.' });
           }
@@ -34,6 +43,28 @@ const findByEmailPass = ({ email, password }) => {
         .catch(err => Promise.reject(err));
     })
     .catch(err => Promise.reject(err)); // bubble up through Promise chain to client
+};
+
+const findUserById = (docId) => {
+  const query = userIdQuery(docId);
+  console.log('USER ID QUERY:')
+
+  return findOne({ collection: 'users', query })
+    .then(document => {
+      if (!document) {
+        return Promise.reject({
+          status: 404,
+          message: 'No active user found with that ID.',
+        });
+      } else {
+        return document;
+      }
+    })
+    .catch(err => Promise.reject(err));
 }
 
-module.exports = findByEmailPass;
+module.exports = {
+  findUserByEmailPass,
+  findUserById,
+  userIdQuery, // this is only used in the 'requestDeactivate.js' script
+};

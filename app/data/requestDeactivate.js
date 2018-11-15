@@ -1,21 +1,14 @@
 const { ObjectId } = require('mongodb');
 
-const { find, update } = require('../../db/operations');
+const { findOne, update } = require('../../db/operations');
+const { userIdQuery } = require('./requestFind');
 
 const deactivate = (docId) => {
-  const query = { _id: { $eq: ObjectId(docId) } };
+  const query = userIdQuery(docId);
 
-  return find({ collection: 'users', query })
+  return findOne({ collection: 'users', query })
     .then(document => {
       if (!document) {
-        return Promise.reject({
-          status: 404,
-          message: 'No document found with that ID.',
-        });
-      }
-
-      // Check and see if the existing document is active, and raise an error if not.
-      if (!document.active) {
         return Promise.reject({
           status: 404,
           message: 'No active user found with that ID.',
@@ -36,6 +29,6 @@ const deactivate = (docId) => {
         });
     })
     .catch(err => Promise.reject(err)); // bubble up through Promise chain to client
-}
+};
 
 module.exports = deactivate;
