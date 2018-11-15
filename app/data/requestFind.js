@@ -10,7 +10,7 @@ const userIdQuery = (docId) => ({
   active: { $eq: true },
 });
 
-const findByEmailPass = ({ email, password }) => {
+const findUserByEmailPass = ({ email, password }) => {
   if (!email || !password) {
     return Promise.reject({
       status: 422,
@@ -45,7 +45,7 @@ const findByEmailPass = ({ email, password }) => {
     .catch(err => Promise.reject(err)); // bubble up through Promise chain to client
 };
 
-const findById = (docId) => {
+const findUserById = (docId) => {
   const query = userIdQuery(docId);
   console.log('USER ID QUERY:')
 
@@ -64,7 +64,7 @@ const findById = (docId) => {
 }
 
 module.exports = {
-  findUserByEmailPass: findByEmailPass,
-  findUserById: findById,
-  userIdQuery,
+  findUserByEmailPass,
+  findUserById,
+  userIdQuery, // this is only used in the 'requestDeactivate.js' script
 };

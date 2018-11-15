@@ -7,8 +7,8 @@ const get = (params) => {
       .catch(err => Promise.reject(err))
   } else {
     return Promise.reject({
-      status: 404,
-      message: 'No active user found with that ID.',
+      status: 400,
+      message: 'A user ID must be provided.',
     });
   }
 };
