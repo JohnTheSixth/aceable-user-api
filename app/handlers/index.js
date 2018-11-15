@@ -7,4 +7,4 @@ const errorHandler = require('./errors');
 module.exports = {
   userHandlers,
   errorHandler,
-}
+};

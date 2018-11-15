@@ -105,6 +105,16 @@ describe('API Server', () => {
         })
         .catch(err => { throw err; });
     });
+
+    it('should return an error if the ID is incorrect', () => {
+      return chai.request(app)
+        .get(`/users/123`)
+        .then(({ status, body }) => {
+          assert.equal(400, status);
+          assert.isOk('single String of 12 bytes or a string of 24 hex', body.message);
+        })
+        .catch(err => { throw err; });
+    });
   });
 
   describe('DELETE to deactivate an existing user', () => {
