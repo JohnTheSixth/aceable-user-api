@@ -3,19 +3,15 @@ const { ObjectId } = require('mongodb');
 const { find, update } = require('../../db/operations');
 
 const deactivate = (docId) => {
-  const query = { _id: { $eq: ObjectId(docId) } };
+  // query searches for documents with specified ObjectId that have an active status
+  const query = {
+    _id: { $eq: ObjectId(docId) },
+    active: { $eq: true },
+  };
 
   return find({ collection: 'users', query })
     .then(document => {
       if (!document) {
-        return Promise.reject({
-          status: 404,
-          message: 'No document found with that ID.',
-        });
-      }
-
-      // Check and see if the existing document is active, and raise an error if not.
-      if (!document.active) {
         return Promise.reject({
           status: 404,
           message: 'No active user found with that ID.',

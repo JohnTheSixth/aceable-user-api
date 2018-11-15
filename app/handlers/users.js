@@ -13,7 +13,6 @@ const post = (body) => {
 }
 
 const deactivate = (id) => {
-  console.log('DEACTIVATE USER');
   return request.deactivate(id);
 }
 
