@@ -9,6 +9,7 @@
   - [DELETE to Deactivate a User](#delete-to-deactivate-a-user)
   - [A Note on Error Response Statuses](#a-note-on-error-response-statuses)
 - [How to Run the API](#how-to-run-the-api) (Node.js required)
+  - [Starting the Database](#starting-the-database)
   - [Starting the Server](#starting-the-server)
   - [Running Tests](#running-tests)
 - [Directory Structure](#directory-structure)
@@ -145,7 +146,7 @@ request body data to ensure they are providing all the necessary data in the req
 
 The API runs on Node.js v10.13.0. If you use [Node Version Manager](https://github.com/creationix/nvm),
 a `.nvmrc` file has been included with this repository. Navigate to the root of the repository, then
-run the following to get it up and running:
+run the following:
 
 ```
 nvm install v10.13.0
@@ -165,12 +166,13 @@ npm install
 
 This will install all the project dependencies.
 
-## Starting the Server
+## Starting the Database
 
 It is worth noting that if you are running the API for the first time, the `mongodb-memory-server`
-package needs to download the Mongo binaries. This can cause the app startup to be delayed.
+package needs to download the latest Mongo binaries. Running the API server without these binaries
+installed can cause the API to start without a database connection (yay async!).
 
-A script has been provided to mitigate this. To download the binaries without starting the express
+A script has been provided to mitigate this. To download the binaries without starting the Express
 server, make sure you are connected to the internet and then run the following:
 
 ```
@@ -179,18 +181,24 @@ npm run db-start
 
 You will need to enter `Ctrl + C` on the console to stop the DB server after it starts.
 
-Running this DB startup script is not strictly necessary. If you don't really care about the server
-start time, you can run the following from the root of the repository:
+## Starting the Server
+
+Running the DB startup script is not strictly necessary. If you aren't planning on firing requests
+to the API within milliseconds of startup, you can run the following from the root of the repository:
 
 ```
 npm start
 ```
 
-This will install the binaries (if needed) and then start the API server.
+This will start the API server and then install the binaries, if needed.
 
 ## Running Tests
 
-Tests are pretty straightforward. To run them, run the following:
+If you've never run the API server before, you should _definitely_ run DB startup script. See
+the [Starting the Database](#starting-the-database) section above.
+
+Once that's done, running the tests themselves are pretty straightforward. Run the following in
+the console:
 
 ```
 npm test
