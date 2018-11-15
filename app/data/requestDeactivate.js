@@ -4,9 +4,13 @@ const { findOne, update } = require('../../db/operations');
 const { userIdQuery } = require('./requestFind');
 
 const deactivate = (docId) => {
-  const query = userIdQuery(docId);
+  let userQuery;
 
-  return findOne({ collection: 'users', query })
+  return userIdQuery(docId)
+    .then(query => {
+      userQuery = query;
+      return findOne({ collection: 'users', query });
+    })
     .then(document => {
       if (!document) {
         return Promise.reject({
@@ -16,7 +20,7 @@ const deactivate = (docId) => {
       }
 
       const updates = { $set: { active: false } };
-      return update({ collection: 'users', query, updates })
+      return update({ collection: 'users', query: userQuery, updates })
         .then(data => {
           if (data.result.ok === 1) {
             return Promise.resolve({ message: 'The user was successfully deactivated.' });

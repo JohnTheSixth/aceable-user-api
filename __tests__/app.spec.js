@@ -96,7 +96,7 @@ describe('API Server', () => {
   });
 
   describe('GET to find user by ID', () => {
-    it('should return an user document if it exists', () => {
+    it('should return a document if the user exists', () => {
       return chai.request(app)
         .get(`/users/${createdUser._id}`)
         .then(({ status, body }) => {

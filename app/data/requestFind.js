@@ -5,10 +5,16 @@ const { saltRounds } = require('./bcryptConfig');
 const { findOne } = require('../../db/operations');
 
 // query searches for documents with specified ObjectId that have an active status
-const userIdQuery = (docId) => ({
-  _id: { $eq: ObjectId(docId) },
-  active: { $eq: true },
-});
+const userIdQuery = (docId) => {
+  try {
+    return Promise.resolve({
+      _id: { $eq: ObjectId(docId) },
+      active: { $eq: true },
+    });
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
 
 const findUserByEmailPass = ({ email, password }) => {
   if (!email || !password) {
@@ -46,10 +52,8 @@ const findUserByEmailPass = ({ email, password }) => {
 };
 
 const findUserById = (docId) => {
-  const query = userIdQuery(docId);
-  console.log('USER ID QUERY:')
-
-  return findOne({ collection: 'users', query })
+  return userIdQuery(docId)
+    .then(query => findOne({ collection: 'users', query }))
     .then(document => {
       if (!document) {
         return Promise.reject({
