@@ -190,7 +190,9 @@ to the API within milliseconds of startup, you can run the following from the ro
 npm start
 ```
 
-This will start the API server and then install the binaries, if needed.
+This will start the API server and then install the binaries, if needed. The server will run locally
+at `http://localhost:3000/users`. You may change the port in the `app/index.js` file if you want to
+run the server on a different port.
 
 ## Running Tests
 
