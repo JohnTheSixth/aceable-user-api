@@ -5,7 +5,7 @@ const { dbConfig, dbName } = require('./config');
 
 const db = server.getInstanceData()
   .then(({ dbName, uri }) => {
-    console.log(`DB Instance ${dbName} is running at ${uri}`)
+    console.log(`DB Instance ${dbName} is running at ${uri}`);
     return MongoClient.connect(uri);
   })
   .catch(err => Promise.reject(err)); // bubble error up through promise chain
@@ -15,4 +15,4 @@ module.exports = {
   db,
   dbConfig,
   dbName,
-}
+};

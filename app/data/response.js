@@ -5,7 +5,7 @@ const removePassword = (data) => {
 
     return dataClone;
   }
-}
+};
 
 const filterCreatedData = (data) => {
   return Promise.resolve(data.ops.map(data => removePassword(data)));
@@ -14,4 +14,4 @@ const filterCreatedData = (data) => {
 module.exports = {
   filterCreatedData,
   removePassword,
-}
+};

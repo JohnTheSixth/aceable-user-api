@@ -1,15 +1,12 @@
 const { ObjectId } = require('mongodb');
 
-const { find, update } = require('../../db/operations');
+const { findOne, update } = require('../../db/operations');
+const { userIdQuery } = require('./requestFind');
 
 const deactivate = (docId) => {
-  // query searches for documents with specified ObjectId that have an active status
-  const query = {
-    _id: { $eq: ObjectId(docId) },
-    active: { $eq: true },
-  };
+  const query = userIdQuery(docId);
 
-  return find({ collection: 'users', query })
+  return findOne({ collection: 'users', query })
     .then(document => {
       if (!document) {
         return Promise.reject({
@@ -32,6 +29,6 @@ const deactivate = (docId) => {
         });
     })
     .catch(err => Promise.reject(err)); // bubble up through Promise chain to client
-}
+};
 
 module.exports = deactivate;

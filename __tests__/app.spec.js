@@ -69,13 +69,39 @@ describe('API Server', () => {
         .catch(err => { throw err; });
     });
 
-    it('should return an error when missing the email and password', () => {
+    it('should return an error when missing the email or password', () => {
       return chai.request(app)
         .post('/users').set('Content-Type', 'application/json')
         .send({ user_query: { email: validUser.email }})
         .then(({ status, body }) => {
           assert.equal(422, status);
           assert.equal('User query must include both email and password.', body.message);
+        })
+        .catch(err => { throw err; });
+    });
+
+    it('should return an error when the user does not exist', () => {
+      return chai.request(app)
+        .post('/users').set('Content-Type', 'application/json')
+        .send({ user_query: {
+          email: missingUser.email,
+          password: missingUser.password,
+        }})
+        .then(({ status, body }) => {
+          assert.equal(404, status);
+          assert.equal('Email does not match any currently active user.', body.message);
+        })
+        .catch(err => { throw err; });
+    });
+  });
+
+  describe('GET to find user by ID', () => {
+    it('should return an user document if it exists', () => {
+      return chai.request(app)
+        .get(`/users/${createdUser._id}`)
+        .then(({ status, body }) => {
+          assert.equal(200, status);
+          assert.deepEqual(createdUser, body);
         })
         .catch(err => { throw err; });
     });

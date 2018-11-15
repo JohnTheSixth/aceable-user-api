@@ -1,8 +1,21 @@
 const { request, response } = require('../data');
 
+const get = (params) => {
+  if (params.id) {
+    return request.findUserById(params.id)
+      .then(data => response.removePassword(data))
+      .catch(err => Promise.reject(err))
+  } else {
+    return Promise.reject({
+      status: 404,
+      message: 'No active user found with that ID.',
+    });
+  }
+};
+
 const post = (body) => {
   if (body.user_query) {
-    return request.find(body.user_query)
+    return request.findUserByEmailPass(body.user_query)
       .then(data => response.removePassword(data))
       .catch(err => Promise.reject(err)); // bubble up through the promise chain to the client
   } else {
@@ -10,13 +23,14 @@ const post = (body) => {
       .then(data => response.filterCreatedData(data))
       .catch(err => Promise.reject(err)); // bubble up through the promise chain to the client
   }
-}
+};
 
-const deactivate = (id) => {
-  return request.deactivate(id);
-}
+const deactivate = (params) => {
+  return request.deactivate(params.id);
+};
 
 module.exports = {
+  get,
   post,
   del: deactivate,
-}
+};
